@@ -1,3 +1,22 @@
 table {
     width: 100%;
 }
+
+.mat-row {
+    height: auto;
+}
+  
+.mat-cell {
+    padding: 8px 8px 8px 0;
+}
+
+input {
+    margin-bottom: 1%;
+    float: right;
+}
+
+.spinner{
+    padding-top: 5%;
+    display: flex;
+    justify-content: center;
+}

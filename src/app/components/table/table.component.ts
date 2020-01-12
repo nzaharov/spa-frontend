@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from 'src/app/services/http-client.service';
-import { Observable, pipe, of, Subject } from 'rxjs';
-import { map, tap, debounceTime } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { tap, debounceTime, pluck } from 'rxjs/operators';
 import { PageRow } from 'src/app/models/pagerow.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalPopupComponent } from '../modal-popup/modal-popup.component';
 
 @Component({
   selector: 'app-table',
@@ -10,6 +12,8 @@ import { PageRow } from 'src/app/models/pagerow.model';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
+
+  constructor(private httpClient: HttpClientService, public dialog: MatDialog) { }
 
   displayedColumns: string[] = [
     'id',
@@ -26,24 +30,33 @@ export class TableComponent implements OnInit {
   dataSource: Observable<PageRow[]>;
   searchWord: string = '';
   search$: Subject<void> = new Subject<void>();
-  lastSize = 20;
+  lastSize: number = 20;
 
   ngOnInit() {
-    this.dataSource = this.httpClient.getPage(20, 0).pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
+    this.updateGrid(20, 0);
     this.search$.pipe(debounceTime(500)).subscribe(() => {
-        this.dataSource = this.httpClient.getPage(this.lastSize, 0, this.searchWord)
-          .pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
+      this.updateGrid(this.lastSize, 0, this.searchWord);
     });
   }
 
-  constructor(private httpClient: HttpClientService) { }
-
   changePage(e) {
-    this.dataSource = this.httpClient.getPage(e.pageSize, e.pageIndex, this.searchWord).pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
+    this.updateGrid(e.pageSize, e.pageIndex, this.searchWord);
     this.lastSize = e.pageSize;
+  }
+
+  showModal(row: PageRow) {
+    const dialogRef = this.dialog.open(ModalPopupComponent, {
+      width: '600px',
+      data: row
+    });
   }
 
   onKeyUp() {
     this.search$.next();
+  }
+
+  private updateGrid(size: number, page: number, searchWord: string = '') {
+    this.dataSource = this.httpClient.getPage(size, page, searchWord)
+      .pipe(tap(data => this.size = of(data.items)), pluck('rows'));
   }
 }

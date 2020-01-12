@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Подробности</h1>
+<div mat-dialog-content>
+    <label>Наименование на докторската програма</label>
+    <p>{{data.doc}}</p>
+    <label>Наименование на ВУ/ филиал/ основно звено</label>
+    <p>{{data.university}}</p>
+    <label>Шифър на проф. направление</label>
+    <p>{{data.cipher}}</p>
+    <label>Наименование на професионалното направление</label>
+    <p>{{data.prof}}</p>
+    <label>Вид процедура</label>
+    <p>{{data.proc}}</p>
+    <label>Статус на процедурата</label>
+    <p>{{data.stat}}</p>
+    <label>Акредитационна оценка</label>
+    <p>{{data.akred}}</p>
+    <label>Дата, до която е валидна акредитацията</label>
+    <p>{{data.date}}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Затвори</button>
+</div>
