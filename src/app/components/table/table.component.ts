@@ -31,7 +31,8 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.dataSource = this.httpClient.getPage(20, 0).pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
     this.search$.pipe(debounceTime(500)).subscribe(() => {
-      this.dataSource = this.httpClient.getPage(this.lastSize, 0, this.searchWord).pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
+        this.dataSource = this.httpClient.getPage(this.lastSize, 0, this.searchWord)
+          .pipe(tap(data => this.size = of(data.items)), map(data => data.rows));
     });
   }
 
