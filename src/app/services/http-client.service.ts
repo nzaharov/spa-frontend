@@ -12,11 +12,18 @@ export class HttpClientService {
 
   private readonly URL = 'http://localhost:7181';
 
-  getPage(pageSize: number, pageNumber: number, searchWord: string = ''): Observable<PageModel> {
-    const params = new HttpParams()
+  getPage(pageSize: number, pageNumber: number, searchWord: string = '', sortOn: string = '', sortType: string = ''): Observable<PageModel> {
+    let params = new HttpParams()
       .set("size", pageSize.toString())
       .set("page", pageNumber.toString())
       .set("searchWord", searchWord);
+
+    if (sortOn != '' && sortType != '') {
+      console.log(sortType.toUpperCase(), sortOn);
+      params = params
+        .set("sortOn", sortOn)
+        .set("sortType", sortType.toUpperCase());
+    }
 
     return this.http.get<PageModel>(`${this.URL}/api/data`, { params: params });
   }

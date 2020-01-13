@@ -5,6 +5,7 @@ import { tap, debounceTime, pluck } from 'rxjs/operators';
 import { PageRow } from 'src/app/models/pagerow.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalPopupComponent } from '../modal-popup/modal-popup.component';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-table',
@@ -23,7 +24,7 @@ export class TableComponent implements OnInit {
     'doc',
     // 'proc',
     // 'stat',
-    // 'akred',
+    'akred',
     // 'date'
   ];
   size: Observable<number>;
@@ -44,6 +45,10 @@ export class TableComponent implements OnInit {
     this.lastSize = e.pageSize;
   }
 
+  sortData(sortSettings: Sort) {
+    this.updateGrid(this.lastSize, 0, this.searchWord, sortSettings.active, sortSettings.direction)
+  }
+
   showModal(row: PageRow) {
     const dialogRef = this.dialog.open(ModalPopupComponent, {
       width: '600px',
@@ -55,8 +60,8 @@ export class TableComponent implements OnInit {
     this.search$.next();
   }
 
-  private updateGrid(size: number, page: number, searchWord: string = '') {
-    this.dataSource = this.httpClient.getPage(size, page, searchWord)
+  private updateGrid(size: number, page: number, searchWord: string = '', sortOn: string = '', sortType: string = '') {
+    this.dataSource = this.httpClient.getPage(size, page, searchWord, sortOn, sortType)
       .pipe(tap(data => this.size = of(data.items)), pluck('rows'));
   }
 }

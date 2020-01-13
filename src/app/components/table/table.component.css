@@ -10,6 +10,10 @@ table {
     padding: 8px 8px 8px 0;
 }
 
+.mat-header-cell {
+    padding: 8px 8px 8px 0;
+}
+
 input {
     margin-bottom: 1%;
     float: right;
