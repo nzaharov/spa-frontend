@@ -1,5 +1,5 @@
 <div>
-    <input matInput placeholder="&#xF002; Търси по ВУ" (keyup)="onKeyUp()" [(ngModel)]="searchWord"
+    <input matInput placeholder="&#xF002; Търси по ВУ" (ngModelChange)="searchWordChange()" [(ngModel)]="searchWord"
         style="font-family:Roboto, FontAwesome; padding:10px" class="mat-elevation-z4">
     <table mat-table matSort [dataSource]="dataSource | async" (matSortChange)="sortData($event)">
         <ng-container matColumnDef="id">

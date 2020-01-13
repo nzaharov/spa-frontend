@@ -58,7 +58,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-  onKeyUp() {
+  searchWordChange() {
     this.search$.next();
   }
 
