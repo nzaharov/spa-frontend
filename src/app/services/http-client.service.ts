@@ -19,7 +19,6 @@ export class HttpClientService {
       .set("searchWord", searchWord);
 
     if (sortOn != '' && sortType != '') {
-      console.log(sortType.toUpperCase(), sortOn);
       params = params
         .set("sortOn", sortOn)
         .set("sortType", sortType.toUpperCase());

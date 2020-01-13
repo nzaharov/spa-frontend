@@ -31,21 +31,23 @@ export class TableComponent implements OnInit {
   dataSource: Observable<PageRow[]>;
   searchWord: string = '';
   search$: Subject<void> = new Subject<void>();
-  lastSize: number = 20;
+  private lastSize: number = 20;
+  private lastSortSettings: Sort = { direction: 'asc', active: 'id' };
 
   ngOnInit() {
     this.updateGrid(20, 0);
     this.search$.pipe(debounceTime(500)).subscribe(() => {
-      this.updateGrid(this.lastSize, 0, this.searchWord);
+      this.updateGrid(this.lastSize, 0, this.searchWord, this.lastSortSettings.active, this.lastSortSettings.direction);
     });
   }
 
   changePage(e) {
-    this.updateGrid(e.pageSize, e.pageIndex, this.searchWord);
+    this.updateGrid(e.pageSize, e.pageIndex, this.searchWord, this.lastSortSettings.active, this.lastSortSettings.direction);
     this.lastSize = e.pageSize;
   }
 
   sortData(sortSettings: Sort) {
+    this.lastSortSettings = sortSettings;
     this.updateGrid(this.lastSize, 0, this.searchWord, sortSettings.active, sortSettings.direction)
   }
 
