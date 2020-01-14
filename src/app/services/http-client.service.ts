@@ -10,7 +10,7 @@ export class HttpClientService {
 
   constructor(private http: HttpClient) { }
 
-  private readonly URL = 'http://localhost:7181';
+  private readonly URL = 'https://us-central1-spasi-25e9f.cloudfunctions.net/api1';
 
   getPage(pageSize: number, pageNumber: number, searchWord: string = '', sortOn: string = '', sortType: string = ''): Observable<PageModel> {
     let params = new HttpParams()
